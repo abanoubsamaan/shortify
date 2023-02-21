@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-class BaseConversion
+class BaseConversionService
 {
+    const BASE = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     /**
      * Convert the given base10 number to base62 string
      * @param int $num
@@ -12,14 +14,13 @@ class BaseConversion
     public function base10toBase62(int $num): string
     {
         $b = 62;
-        $base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $r = $num % $b;
-        $res = $base[$r];
+        $res = self::BASE[$r];
         $q = floor($num / $b);
         while ($q) {
             $r = $q % $b;
             $q = floor($q / $b);
-            $res = $base[$r] . $res;
+            $res = self::BASE[$r] . $res;
         }
         return $res;
     }
@@ -32,11 +33,10 @@ class BaseConversion
     public function base62toBase10(string $str): int
     {
         $b = 62;
-        $base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $limit = strlen($str);
-        $res = strpos($base, $str[0]);
+        $res = strpos(self::BASE, $str[0]);
         for ($i = 1; $i < $limit; $i++) {
-            $res = $b * $res + strpos($base, $str[$i]);
+            $res = $b * $res + strpos(self::BASE, $str[$i]);
         }
         return $res;
     }
