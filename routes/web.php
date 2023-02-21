@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShortUrlController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::any('/', function () {
-    if(request()->has('url')){
-        return view('index')->with('shortenerResult', request()->input('url'));
-    }
-    return view('index');
-});
+Route::get('/', [ShortUrlController::class, 'index']);
+Route::post('/', [ShortUrlController::class, 'store']);
+Route::get('/{id}', [ShortUrlController::class, 'show']);

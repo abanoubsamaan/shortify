@@ -1,4 +1,4 @@
-
+{{--separate each componant in separate file and include them--}}
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,16 +19,21 @@
         <form method="post">
             @csrf
             <div class="d-flex flex-row align-items-center flex-wrap justify-content-around">
-                <div class="form-floating">
-                    <input type="url" class="form-control" name="url" id="validUrl" placeholder="Please enter valid URL">
-                    <label for="validUrl">Please enter valid URL</label>
+                <div class="form-floating position-relative">
+                    <input type="url" class="form-control" name="url" id="validUrl" placeholder="Please enter the long URL" required="required"/>
+                    <label for="validUrl">Please enter the long URL</label>
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="invalid-tooltip d-block">{{ $error }}</div>
+                        @endforeach
+                    @endif
                 </div>
                 <input type="submit" class=" btn btn-lg btn-secondary" value="GO" />
             </div>
         </form>
     @if(!empty($shortenerResult))
         <div class="shortener-result">
-            <span id="textToCopy">https://shortify.test/q84mnGJ</span>
+            <span id="textToCopy">{{$shortenerResult}}</span>
             <button type="button" class="btn btn-link" onclick="copyText()">
                 <i class="fa fa-thin fa-copy"></i>
             </button>
